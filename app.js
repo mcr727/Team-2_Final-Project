@@ -113,7 +113,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
 
 //load csv and execute all functions
 
-d3.csv("assets/Resources/combined_df.csv").then(function (typeData, err) {
+d3.csv("combined_df.csv").then(function (typeData, err) {
     if (err) throw err;
     //log data
     console.log(typeData);
