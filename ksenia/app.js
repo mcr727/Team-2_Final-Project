@@ -168,9 +168,9 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
         .classed("typeCircle", true)
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenXAxis]))
-        .attr("r", 14)
-        //.attr("fill", "blue")
-        .attr("opacity", ".5");
+        .attr("r", 12)
+        .attr("fill", "green")
+        .attr("opacity", ".3");
 
 
     //create group for  x-axis labels
