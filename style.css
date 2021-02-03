@@ -20,6 +20,34 @@ body {
     text-anchor: middle;
     }
     
+.inactive:hover {
+  fill: #000;
+  cursor: pointer;
+}
+
+.typeCircle {
+  fill: #89bdd3;
+  stroke: #e3e3e3;
+}
+
+#scatter {
+  display: block;
+  margin: 0;
+}
+
+.d3-tip {
+  padding: 6px;
+  font-size: 12px;
+  line-height: 1;
+  line-height: 1.5em;
+  color: #fff;
+  text-align: center;
+  text-transform: capitalize;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+
+    
 
 hr  {  
     width: 100%;  

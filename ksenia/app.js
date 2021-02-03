@@ -1,10 +1,10 @@
 var svgWidth = 960;
-var svgHeight = 860;
+var svgHeight = 1160;
 
 var margin = {
-    top:40,
+    top:70,
     right:40,
-    bottom:400,
+    bottom:330,
     left:100
 };
 
@@ -20,10 +20,12 @@ var svg = chart.append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight)
 
+
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 var chosenXAxis = "ENFJ";
+
 
 //function for scaleLinear for x-axis
 function xScale(typeData, chosenXAxis) {
@@ -35,7 +37,7 @@ function xScale(typeData, chosenXAxis) {
     return xLinearScale;
 }
 
-//function for axis rendering
+//function for x-axis rendering
 function renderAxes(newXScale, xAxis) {
     var bottomAxis = d3.axisBottom(newXScale);
 
@@ -93,8 +95,20 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     else if (chosenXAxis === "INTJ") {
         label = "INTJ count: ";
     }
-    else {
+    else if (chosenXAxis === "INTP") {
         label = "INTP count: ";
+    }
+    else if (chosenXAxis === "ISFJ") {
+        label = "ISFJ count: ";
+    }
+    else if (chosenXAxis === "ISFP") {
+        label = "ISFP count: ";
+    }
+    else if (chosenXAxis === "ISTJ") {
+        label = "ISTJ count: ";
+    }
+    else {
+        label = "ISTP count: ";
     }
 
     var toolTip = d3.tip()
@@ -110,6 +124,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     
     return circlesGroup;
 }
+
 
 //load csv and execute all functions
 
@@ -144,7 +159,7 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
     //create yLinearScale
     var yLinearScale = d3.scaleLinear()
         .domain([0, 2000])
-        .range([height, 0]);
+        .range([height - 10, 10]);
     
     //intial axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
@@ -168,9 +183,9 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
         .classed("typeCircle", true)
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenXAxis]))
-        .attr("r", 12)
-        .attr("fill", "green")
-        .attr("opacity", ".3");
+        .attr("r", 5)
+        //.attr("fill", "blue")
+        .attr("opacity", ".5");
 
 
     //create group for  x-axis labels
@@ -260,6 +275,34 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
         .attr("value", "INTP")
         .classed("inactive", true)
         .text("INTP type");
+    
+    var isfjCount = labelsGroup.append("text")
+        .attr("x", -80)
+        .attr("y", 80)
+        .attr("value", "ISFJ")
+        .classed("inactive", true)
+        .text("ISFJ type");
+    
+    var isfpCount = labelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 80)
+        .attr("value", "ISFP")
+        .classed("inactive", true)
+        .text("ISFP type");
+
+    var istjCount = labelsGroup.append("text")
+        .attr("x", 80)
+        .attr("y", 80)
+        .attr("value", "ISTJ")
+        .classed("inactive", true)
+        .text("ISTJ type");
+    
+    var istpCount = labelsGroup.append("text")
+        .attr("x", 160)
+        .attr("y", 80)
+        .attr("value", "ISTP")
+        .classed("inactive", true)
+        .text("ISTP type");
 
     //append y-axis label
     // chartGroup.append("text")
@@ -269,8 +312,11 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
     //     .attr("dy", "1em")
     //     .classed("axis-text", true);
 
+    
+
     //add tooltip to cirles
     var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+   
 
     //create event listener on "click" events on text elements(labels)
     labelsGroup.selectAll("text")
@@ -278,6 +324,7 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
 
             //get value of selection
             var value = d3.select(this).attr("value");
+
 
             if (value != chosenXAxis){
 
@@ -295,6 +342,8 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
 
                 //update tooltips with new info
                 circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+
+
 
 
                 //change classes to change bold text
@@ -335,6 +384,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                     intpCount
                         .classed("active", false)
                         .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
                 }
                 else if (chosenXAxis === "ENFP") {
                     enfjCount
@@ -371,6 +432,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                         .classed("active", false)
                         .classed("inactive", true);
                     intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
                         .classed("active", false)
                         .classed("inactive", true);
                 }
@@ -411,6 +484,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                     intpCount
                         .classed("active", false)
                         .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
                 }
                 else if (chosenXAxis === "ENTP") {
                     enfjCount
@@ -447,6 +532,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                         .classed("active", false)
                         .classed("inactive", true);
                     intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
                         .classed("active", false)
                         .classed("inactive", true);
                 }
@@ -487,6 +584,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                     intpCount
                         .classed("active", false)
                         .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
                 }
                 else if (chosenXAxis === "ESFP") {
                     enfjCount
@@ -523,6 +632,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                         .classed("active", false)
                         .classed("inactive", true);
                     intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
                         .classed("active", false)
                         .classed("inactive", true);
                 }
@@ -563,6 +684,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                     intpCount
                         .classed("active", false)
                         .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
                 }
                 else if (chosenXAxis === "ESTP") {
                     enfjCount
@@ -599,6 +732,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                         .classed("active", false)
                         .classed("inactive", true);
                     intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
                         .classed("active", false)
                         .classed("inactive", true);
                 }
@@ -639,6 +784,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                     intpCount
                         .classed("active", false)
                         .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
                 }
                 else if (chosenXAxis === "INFP") {
                     enfjCount
@@ -675,6 +832,18 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                         .classed("active", false)
                         .classed("inactive", true);
                     intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
                         .classed("active", false)
                         .classed("inactive", true);
                 }
@@ -715,8 +884,20 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                     intpCount
                         .classed("active", false)
                         .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
                 }
-                else {
+                else if (chosenXAxis === "INTP") {
                     enfjCount
                         .classed("active", false)
                         .classed("inactive", true);
@@ -753,10 +934,226 @@ d3.csv("combined_df.csv").then(function (typeData, err) {
                     intpCount
                         .classed("active", true)
                         .classed("inactive", false);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    
                 }
+                else if (chosenXAxis === "ISFJ") {
+                    enfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    enfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", true)
+                        .classed("inactive", false);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                }
+                else if (chosenXAxis === "ISFP") {
+                    enfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    enfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", true)
+                        .classed("inactive", false);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                }
+                else if (chosenXAxis === "ISTJ") {
+                    enfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    enfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", true)
+                        .classed("inactive", false);
+                    istpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                }
+                else {
+                    enfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    enfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    entpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    esfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    estpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    infpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    intpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    isfpCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istjCount
+                        .classed("active", false)
+                        .classed("inactive", true);
+                    istpCount
+                        .classed("active", true)
+                        .classed("inactive", false);
+                }
+
+                
             }
 
         });
+        
 
 }).catch(function (error) {
     console.log(error);
